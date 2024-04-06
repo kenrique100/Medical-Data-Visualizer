@@ -15,25 +15,26 @@ df["gluc"] = df["gluc"].apply(lambda x : 0 if x == 1 else 1)
 
 # Draw Categorical Plot
 def draw_cat_plot():
-    # Create DataFrame for cat plot using `pd.melt` using just the values from 'cholesterol', 'gluc', 'smoke', 'alco', 'active', and 'overweight'.
-    df_cat = None
+# Create DataFrame for cat plot using `pd.melt` using just the values from 'cholesterol', 'gluc', 'smoke', 'alco', 'active', and 'overweight'.
+  df_cat = pd.melt(df, id_vars = ['cardio'], value_vars = ['cholesterol', 'gluc', 'smoke', 'alco', 'active', 'overweight'])
 
 
-    # Group and reformat the data to split it by 'cardio'. Show the counts of each feature. You will have to rename one of the columns for the catplot to work correctly.
-    df_cat = None
+# Group and reformat the data to split it by 'cardio'. Show the counts of each feature. You will have to rename one of the columns for the catplot to work correctly.
+  df_cat["total"] = 1
+  df_cat = df_cat.groupby(["cardio", "variable", "value"], as_index = False).count()
     
 
-    # Draw the catplot with 'sns.catplot()'
+  # Draw the catplot with 'sns.catplot()'
+  # sns.set_theme(style="darkgrid")
+  fig = sns.catplot(x = "variable", y = "total", data = df_cat, hue = "value", col = "cardio", kind = "bar", height = 6, aspect = 1.2).fig
 
 
+  # Get the figure for the output
+  
 
-    # Get the figure for the output
-    fig = None
-
-
-    # Do not modify the next two lines
-    fig.savefig('catplot.png')
-    return fig
+  # Do not modify the next two lines
+  fig.savefig('catplot.png')
+  return fig
 
 
 # Draw Heat Map
